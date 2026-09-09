@@ -5,4 +5,4 @@ Hello world!
 
 ## Labs- Lab 2 
 
-— connected this repository to my laptop
+— edited this line in the browser
