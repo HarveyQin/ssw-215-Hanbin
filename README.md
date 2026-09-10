@@ -4,4 +4,4 @@ Repo for SSW215
 Hello world!
 
 ## Labs
-- Lab 2 — connected this repository to my laptop
+- Lab 2 — edit on my laptop
