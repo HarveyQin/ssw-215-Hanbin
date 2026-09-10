@@ -3,7 +3,5 @@ Repo for SSW215
 
 Hello world!
 
-## Labs- Lab 2 
-
-— edited this line on my laptop
-— edited this line in the browser
+## Labs
+- Lab 2 — connected this repository to my laptop
