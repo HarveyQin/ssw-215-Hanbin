@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f4f4;
+  color: #1b1b1b;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.site-header {
+  background: #ffffff;
+  padding: 64px 0;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.hero-copy {
+  flex: 1 1 auto;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: #4a4f5d;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  font-size: 1.2rem;
+  color: #2d3748;
+}
+
+.bio {
+  margin: 14px 0 0;
+  font-size: 1.05rem;
+  color: #4a5568;
+}
+
+.button-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.hero-media {
+  flex: 0 0 220px;
+}
+
+.hero-media img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #e5e7eb;
+}
+
+.projects {
+  padding: 48px 0 72px;
+}
+
+.projects h2 {
+  margin: 0 0 18px;
+  font-size: 2rem;
+}
+
+.projects ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.projects li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.site-footer {
+  background: #111827;
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+}
+
+.site-footer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .site-header {
+    padding: 48px 0;
+  }
+
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .hero-media {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .hero-media img {
+    width: min(220px, 100%);
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .projects {
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+}

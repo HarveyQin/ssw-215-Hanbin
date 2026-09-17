@@ -6,7 +6,7 @@ engineering student.
 ## 2. Invariants & Negative Constraints
 - All styling MUST reside in `./style.css` (no inline style="..." attributes).
 - The page MUST NOT load external CSS frameworks or CDNs (no Bootstrap, no Tailwind).
-- The avatar image MUST use the relative path `./Lab3/assets/avatar.png`.
+- The avatar image MUST use the relative path `assets/avatar.png`.
 - The layout MUST collapse into a single vertical column on screens narrower than 768px.
 ## 3. UI Content & Interface Contract
 - Hero header: my full name "Hanbin Qin", the subtitle "TA for SSW-215", and
@@ -15,6 +15,9 @@ this bio: "LLM in Software Engineering".
 - Projects section with id="projects": lists these items: LLM in software testing.
 - Social link: GitHub ([<your GitHub profile URL>](https://github.com/HarveyQin)) MUST open in a new tab
 (target="_blank").
+- The page background MUST be dark navy (#1b2a41) with white text.
+- Headings SHOULD use a serif font such as Georgia.
+- The "See my projects" button MUST have rounded corners and a green background.
 ## 4. Acceptance Checklist
 - [ ] Valid semantic HTML5: the page uses <header>, <main>, and <footer>.
 - [ ] The avatar image has width, height, and alt attributes.
