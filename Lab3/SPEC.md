@@ -6,7 +6,7 @@ engineering student.
 ## 2. Invariants & Negative Constraints
 - All styling MUST reside in `./style.css` (no inline style="..." attributes).
 - The page MUST NOT load external CSS frameworks or CDNs (no Bootstrap, no Tailwind).
-- The avatar image MUST use the relative path `./assets/avatar.jpg`.
+- The avatar image MUST use the relative path `./Lab3/assets/avatar.png`.
 - The layout MUST collapse into a single vertical column on screens narrower than 768px.
 ## 3. UI Content & Interface Contract
 - Hero header: my full name "Hanbin Qin", the subtitle "TA for SSW-215", and
