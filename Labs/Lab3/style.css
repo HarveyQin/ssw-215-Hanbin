@@ -9,8 +9,8 @@ html {
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f4f4f4;
-  color: #1b1b1b;
+  background: #1b2a41;
+  color: #ffffff;
   overflow-x: hidden;
 }
 
@@ -25,7 +25,7 @@ img {
 }
 
 .site-header {
-  background: #ffffff;
+  background: #1b2a41;
   padding: 64px 0;
 }
 
@@ -50,6 +50,7 @@ img {
 
 h1 {
   margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.4rem, 4vw, 4rem);
   line-height: 1.1;
 }
@@ -57,13 +58,13 @@ h1 {
 .subtitle {
   margin: 10px 0 0;
   font-size: 1.2rem;
-  color: #2d3748;
+  color: #e5e7eb;
 }
 
 .bio {
   margin: 14px 0 0;
   font-size: 1.05rem;
-  color: #4a5568;
+  color: #dfe7f3;
 }
 
 .button-link {
@@ -71,7 +72,7 @@ h1 {
   margin-top: 24px;
   padding: 12px 22px;
   border-radius: 999px;
-  background: #111827;
+  background: #4caf50;
   color: #ffffff;
   text-decoration: none;
   font-weight: 700;
@@ -109,7 +110,7 @@ h1 {
 }
 
 .site-footer {
-  background: #111827;
+  background: #1b2a41;
   color: #ffffff;
   padding: 20px 0;
 }
