@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "LLM in software testing.",
+    "description": "Exploring the use of large language models in software testing.",
+    "likes": 14
+  },
+  {
+    "id": 2,
+    "title": "AI for SE.",
+    "description": "Exploring the use of large language models in software development.",
+    "likes": 16
+  },
+  {
+    "id": 3,
+    "title": "123",
+    "description": "New project",
+    "likes": 0
+  }
+]

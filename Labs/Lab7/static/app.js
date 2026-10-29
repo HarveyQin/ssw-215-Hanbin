@@ -1,13 +1,12 @@
 const filterInput = document.getElementById('filter-input');
 const projectCount = document.getElementById('project-count');
+const addTitleInput = document.getElementById('new-title');
+const addProjectBtn = document.getElementById('add-project-btn');
 const cardGrid = document.querySelector('.card-grid');
-const projectForm = document.getElementById('project-form');
-const newTitleInput = document.getElementById('new-title');
-const createStatus = document.getElementById('create-status');
 
 function updateProjectList() {
   const cards = Array.from(document.querySelectorAll('.card'));
-  const query = filterInput.value.trim().toLowerCase();
+  const query = filterInput ? filterInput.value.trim().toLowerCase() : '';
   let visibleCount = 0;
 
   cards.forEach((card) => {
@@ -21,70 +20,24 @@ function updateProjectList() {
     }
   });
 
-  projectCount.textContent = `Showing ${visibleCount} of ${cards.length} projects`;
+  if (projectCount) {
+    projectCount.textContent = `Showing ${visibleCount} of ${cards.length} projects`;
+  }
 }
 
-if (filterInput && projectCount) {
-  filterInput.addEventListener('input', updateProjectList);
-  updateProjectList();
-}
+function bindCardEvents(card) {
+  const upvoteButton = card.querySelector('.upvote-btn');
+  const likeCount = card.querySelector('.like-count');
 
-function createProjectCard(project) {
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.dataset.projectId = project.id;
-
-  if (project.likes > 10) {
-    const badge = document.createElement('span');
-    badge.className = 'badge';
-    badge.textContent = 'Trending';
-    card.append(badge);
+  if (!upvoteButton || !likeCount) {
+    return;
   }
 
-  const title = document.createElement('h3');
-  title.textContent = project.title;
-  card.append(title);
-
-  const description = document.createElement('p');
-  description.textContent = project.description;
-  card.append(description);
-
-  const likes = document.createElement('p');
-  likes.append('Likes: ');
-  const likeCount = document.createElement('span');
-  likeCount.className = 'like-count';
-  likeCount.textContent = project.likes;
-  likes.append(likeCount);
-  card.append(likes);
-
-  const upvoteButton = document.createElement('button');
-  upvoteButton.className = 'upvote-btn';
-  upvoteButton.type = 'button';
-  upvoteButton.textContent = 'Upvote';
-  card.append(upvoteButton);
-
-  return card;
-}
-
-if (cardGrid) {
-  cardGrid.addEventListener('click', async (event) => {
-    if (!(event.target instanceof Element)) {
-      return;
-    }
-
-    const upvoteButton = event.target.closest('.upvote-btn');
-    if (!upvoteButton || !cardGrid.contains(upvoteButton)) {
-      return;
-    }
-
-    const card = upvoteButton.closest('.card');
-    const likeCount = card && card.querySelector('.like-count');
-    if (!card || !likeCount) {
-      return;
-    }
+  upvoteButton.addEventListener('click', async () => {
+    const projectId = card.dataset.projectId;
 
     try {
-      const response = await fetch(`/api/projects/${card.dataset.projectId}/upvote`, {
+      const response = await fetch(`/api/projects/${projectId}/upvote`, {
         method: 'POST',
       });
 
@@ -94,36 +47,97 @@ if (cardGrid) {
 
       const result = await response.json();
       likeCount.textContent = result.likes;
+
+      if (Number(result.likes) > 10 && !card.querySelector('.badge')) {
+        const badge = document.createElement('span');
+        badge.className = 'badge';
+        badge.textContent = 'Trending';
+        card.insertBefore(badge, card.firstChild);
+      }
     } catch (error) {
       console.error('Unable to upvote project:', error);
     }
   });
 }
 
-if (projectForm && newTitleInput && createStatus && cardGrid) {
-  projectForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    createStatus.textContent = '';
+function createProjectCard(project) {
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.dataset.projectId = project.id;
+
+  const trending = project.likes > 10;
+
+  if (trending) {
+    const badge = document.createElement('span');
+    badge.className = 'badge';
+    badge.textContent = 'Trending';
+    card.appendChild(badge);
+  }
+
+  const header = document.createElement('h3');
+  header.textContent = project.title;
+
+  const description = document.createElement('p');
+  description.textContent = project.description;
+
+  const likesText = document.createElement('p');
+  likesText.innerHTML = 'Likes: <span class="like-count">' + project.likes + '</span>';
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'upvote-btn';
+  button.textContent = 'Upvote';
+
+  card.appendChild(header);
+  card.appendChild(description);
+  card.appendChild(likesText);
+  card.appendChild(button);
+
+  bindCardEvents(card);
+  return card;
+}
+
+if (filterInput && projectCount) {
+  filterInput.addEventListener('input', updateProjectList);
+}
+
+if (addProjectBtn && addTitleInput && cardGrid) {
+  addProjectBtn.addEventListener('click', async () => {
+    const title = addTitleInput.value.trim();
+
+    if (!title) {
+      addTitleInput.focus();
+      return;
+    }
 
     try {
       const response = await fetch('/api/projects', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: newTitleInput.value }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title }),
       });
 
       if (!response.ok) {
-        throw new Error(`Project creation failed with status ${response.status}`);
+        throw new Error(`Create failed with status ${response.status}`);
       }
 
       const project = await response.json();
-      cardGrid.append(createProjectCard(project));
-      newTitleInput.value = '';
+      const newCard = createProjectCard(project);
+      cardGrid.appendChild(newCard);
+      addTitleInput.value = '';
       updateProjectList();
-      createStatus.textContent = 'Project added.';
     } catch (error) {
       console.error('Unable to create project:', error);
-      createStatus.textContent = 'Unable to add project. Please try again.';
     }
   });
+}
+
+document.querySelectorAll('.card').forEach((card) => {
+  bindCardEvents(card);
+});
+
+if (filterInput && projectCount) {
+  updateProjectList();
 }

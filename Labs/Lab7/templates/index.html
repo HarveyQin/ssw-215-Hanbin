@@ -41,13 +41,12 @@
           <p class="project-count" id="project-count">Showing {{ projects|length }} of {{ projects|length }} projects</p>
         </div>
 
-        <div class="projects-toolbar">
-          <form id="project-form">
-            <label class="filter-label" for="new-title">New project title</label>
-            <input class="filter-input" id="new-title" name="title" type="text" />
-            <button type="submit">Add project</button>
-            <p id="create-status" role="status" aria-live="polite"></p>
-          </form>
+        <div class="create-project-block">
+          <label class="filter-label" for="new-title">Add project</label>
+          <div class="add-project-row">
+            <input class="new-title-input" id="new-title" type="text" placeholder="Project title" aria-label="New project title" />
+            <button class="add-project-btn" id="add-project-btn" type="button">Add project</button>
+          </div>
         </div>
 
         <div class="card-grid">
@@ -59,6 +58,9 @@
 
             <h3>{{ project.title }}</h3>
             <p>{{ project.description }}</p>
+            {% if project.likes > 10 %}
+            <p class="trending-badge">Trending</p>
+            {% endif %}
             <p>Likes: <span class="like-count">{{ project.likes }}</span></p>
             <button class="upvote-btn" type="button">Upvote</button>
           </article>

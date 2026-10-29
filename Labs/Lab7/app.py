@@ -1,27 +1,58 @@
 import json
-from pathlib import Path
+import os
 
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
 
-PROJECTS_FILE = Path(__file__).with_name("projects.json")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app.template_folder = os.path.join(BASE_DIR, "templates")
+app.static_folder = os.path.join(BASE_DIR, "static")
+PROJECTS_PATH = os.path.join(BASE_DIR, "projects.json")
 
 
 def load_projects():
-    with PROJECTS_FILE.open(encoding="utf-8") as projects_file:
-        return json.load(projects_file)
+    if not os.path.exists(PROJECTS_PATH):
+        return []
+    with open(PROJECTS_PATH, "r", encoding="utf-8") as file:
+        projects = json.load(file)
+    return projects if isinstance(projects, list) else []
 
 
-def save_projects(projects_db):
-    with PROJECTS_FILE.open("w", encoding="utf-8") as projects_file:
-        json.dump(projects_db, projects_file, indent=2)
+def save_projects(projects):
+    with open(PROJECTS_PATH, "w", encoding="utf-8") as file:
+        json.dump(projects, file, indent=2)
+        file.write("\n")
+
+
+projects_db = load_projects()
 
 
 @app.route("/")
 def index():
     projects_db = load_projects()
     return render_template("index.html", projects=projects_db)
+
+
+@app.route("/api/projects", methods=["POST"])
+def create_project():
+    data = request.get_json(silent=True) or {}
+    title = data.get("title")
+
+    if title is None or not str(title).strip():
+        return jsonify({"error": "Title is required"}), 400
+
+    projects_db = load_projects()
+    next_id = max((project["id"] for project in projects_db), default=0) + 1
+    new_project = {
+        "id": next_id,
+        "title": str(title).strip(),
+        "description": "New project",
+        "likes": 0,
+    }
+    projects_db.append(new_project)
+    save_projects(projects_db)
+    return jsonify(new_project), 201
 
 
 @app.route("/api/projects/<int:project_id>/upvote", methods=["POST"])
@@ -37,25 +68,6 @@ def upvote_project(project_id):
     project["likes"] += 1
     save_projects(projects_db)
     return jsonify({"id": project_id, "likes": project["likes"]})
-
-
-@app.route("/api/projects", methods=["POST"])
-def create_project():
-    data = request.get_json(silent=True)
-    title = data.get("title") if isinstance(data, dict) else None
-    if not isinstance(title, str) or not title.strip():
-        return jsonify({"error": "A non-empty title is required"}), 400
-
-    projects_db = load_projects()
-    project = {
-        "id": max((item["id"] for item in projects_db), default=0) + 1,
-        "title": title.strip(),
-        "description": "",
-        "likes": 0,
-    }
-    projects_db.append(project)
-    save_projects(projects_db)
-    return jsonify(project), 201
 
 
 if __name__ == "__main__":
