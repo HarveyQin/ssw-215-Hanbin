@@ -41,10 +41,17 @@
           <p class="project-count" id="project-count">Showing {{ projects|length }} of {{ projects|length }} projects</p>
         </div>
 
+        <div class="create-project-block">
+          <label class="filter-label" for="new-title">Add project</label>
+          <div class="add-project-row">
+            <input class="new-title-input" id="new-title" type="text" placeholder="Project title" aria-label="New project title" />
+            <button class="add-project-btn" id="add-project-btn" type="button">Add project</button>
+          </div>
+        </div>
+
         <div class="card-grid">
           {% for project in projects %}
           <article class="card" data-project-id="{{ project.id }}">
-            <!-- hand-edited by AB -->
             {% if project.likes > 10 %}
             <span class="badge">Trending</span>
             {% endif %}
