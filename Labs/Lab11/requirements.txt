@@ -1,0 +1,7 @@
+flask
+Flask-SQLAlchemy
+openai==1.39.0
+httpx<0.28
+python-dotenv
+requests==2.34.2
+waitress
